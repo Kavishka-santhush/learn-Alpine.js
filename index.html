@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alpine.js Tutorial - Step 1</title>
+    <title>Alpine.js Tutorial - Step 2</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Alpine.js CDN -->
@@ -12,11 +12,30 @@
 <body class="bg-gray-100 flex items-center justify-center h-screen">
 
     <div class="bg-white p-8 rounded-xl shadow-md w-96 text-center">
-        <h1 class="text-2xl font-bold mb-4 text-gray-800">Alpine.js Step 1</h1>
+        <h1 class="text-2xl font-bold mb-4 text-gray-800">Alpine.js Step 2</h1>
 
         <!-- Alpine Component Starts Here -->
-        <div x-data="{ message: 'යුරෝපා සංචාරය සාර්ථකයි! (Hello Alpine.js)' }">
-            <p class="text-lg text-blue-600 font-medium" x-text="message"></p>
+        <div x-data="{ count: 0, name: 'සංචාරකයා' }">
+            
+            <!-- Displaying Data -->
+            <p class="text-lg text-gray-700 mb-2">නම: <span class="font-bold text-blue-600" x-text="name"></span></p>
+            <p class="text-xl font-semibold mb-4">ගණන (Count): <span class="text-indigo-600" x-text="count"></span></p>
+
+            <!-- Buttons with Event Handling -->
+            <div class="flex justify-center gap-2 mb-4">
+                <!-- x-on:click හෝ කෙටියෙන් @click -->
+                <button @click="count++" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition">
+                    Plus (+)
+                </button>
+                <button @click="count--" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition">
+                    Minus (-)
+                </button>
+            </div>
+
+            <button @click="name = 'සංචාරකයා (වෙනස් විය)'" class="bg-green-500 hover:bg-green-600 text-white w-full py-2 rounded-lg font-medium transition">
+                නම වෙනස් කරන්න
+            </button>
+
         </div>
         <!-- Alpine Component Ends Here -->
 
