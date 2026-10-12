@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpine.js Tutorial - Step 1</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+    <div class="bg-white p-8 rounded-xl shadow-md w-96 text-center">
+        <h1 class="text-2xl font-bold mb-4 text-gray-800">Alpine.js Step 1</h1>
+
+        <!-- Alpine Component Starts Here -->
+        <div x-data="{ message: 'යුරෝපා සංචාරය සාර්ථකයි! (Hello Alpine.js)' }">
+            <p class="text-lg text-blue-600 font-medium" x-text="message"></p>
+        </div>
+        <!-- Alpine Component Ends Here -->
+
+    </div>
+
+</body>
+</html>
