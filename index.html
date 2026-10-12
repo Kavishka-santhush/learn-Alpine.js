@@ -3,61 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alpine.js Tutorial - Step 5 (Perfect Fix)</title>
+    <title>Alpine.js Advanced - Persist, x-init, x-ref</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Alpine.js CDN -->
+    
+    <!-- Alpine.js Persist Plugin (Must be loaded BEFORE core Alpine) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <!-- Alpine.js Core CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 transition-colors duration-300">
 
-    <!-- Main Container with Alpine data for Dark Mode -->
+    <!-- Main Container -->
     <div x-data="{ 
-            darkMode: false,
-            open: false 
+            // $persist මඟින් මේක browser එකේ localStorage එකේ සේව් වෙනවා (Refresh කළත් මකෙන්නේ නැහැ)
+            darkMode: $persist(false),
+            name: $persist(''),
+            
+            init() {
+                console.log('Alpine component එක සාර්ථකව Load විය!');
+            },
+
+            focusInput() {
+                // x-ref මඟින් input එක අල්ලාගෙන ඒකට focus කරයි
+                this.$refs.myInput.focus();
+            }
          }" 
+         x-init="init()"
          :class="darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'"
          class="flex items-center justify-center h-screen transition-colors duration-300">
 
         <div :class="darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-200 text-gray-800'"
              class="p-8 rounded-xl shadow-md w-96 border transition-colors duration-300">
             
-            <h1 class="text-2xl font-bold mb-6 text-center">Alpine.js Step 5</h1>
+            <h1 class="text-2xl font-bold mb-4 text-center">Advanced Alpine.js</h1>
 
-            <!-- Dark Mode Toggle Button -->
+            <!-- Dark Mode Toggle with Persist -->
             <div class="mb-6 text-center">
                 <button @click="darkMode = !darkMode" 
                         :class="darkMode ? 'bg-yellow-500 hover:bg-yellow-400 text-gray-900' : 'bg-gray-900 hover:bg-gray-800 text-white'"
-                        class="w-full px-4 py-3 rounded-lg font-semibold transition shadow cursor-pointer">
-                    <!-- Button Text dynamically changes -->
+                        class="w-full px-4 py-2.5 rounded-lg font-semibold transition shadow cursor-pointer">
                     <span x-text="darkMode ? '☀️ Light Mode වෙත මාරු වන්න' : '🌙 Dark Mode වෙත මාරු වන්න'"></span>
                 </button>
             </div>
 
-            <!-- Menu Component with x-transition -->
-            <div>
-                <button @click="open = !open" 
-                        class="bg-indigo-600 hover:bg-indigo-700 text-white w-full py-2.5 rounded-lg font-medium transition mb-3 cursor-pointer">
-                    මෙනු (Menu) පෙන්වන්න / සඟවන්න
-                </button>
+            <!-- x-ref Example -->
+            <div class="mb-4">
+                <label class="block text-sm font-bold mb-2">ඔබේ නම (Persisted & Ref):</label>
+                <!-- x-ref="myInput" මඟින් මෙම input එක නම් කර ඇත -->
+                <input type="text" x-model="name" x-ref="myInput" placeholder="නමක් ටයිප් කරන්න..." 
+                    class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800">
+            </div>
 
-                <!-- Box with x-transition effects -->
-                <div x-show="open" 
-                     x-transition:enter="transition ease-out duration-300"
-                     x-transition:enter-start="opacity-0 transform scale-90"
-                     x-transition:enter-end="opacity-100 transform scale-100"
-                     x-transition:leave="transition ease-in duration-200"
-                     x-transition:leave-start="opacity-100 transform scale-100"
-                     x-transition:leave-end="opacity-0 transform scale-90"
-                     :class="darkMode ? 'bg-gray-700 border-gray-600 text-gray-100' : 'bg-gray-50 border-gray-200 text-gray-700'"
-                     class="p-4 rounded-lg border shadow-inner">
-                    <p class="font-semibold">මෙය සිනිඳු සජීවීකරණයකින් විවෘත වේ!</p>
-                    <ul class="mt-2 space-y-1 text-sm opacity-90">
-                        <li>• පැතිකඩ (Profile)</li>
-                        <li>• සැකසුම් (Settings)</li>
-                        <li>• ඉවත් වීම (Logout)</li>
-                    </ul>
-                </div>
+            <!-- Focus Button using x-ref -->
+            <button @click="focusInput()" 
+                class="bg-blue-600 hover:bg-blue-700 text-white w-full py-2 rounded-lg font-medium transition cursor-pointer mb-4">
+                Input එකට Focus කරන්න
+            </button>
+
+            <!-- Live Output -->
+            <div class="p-3 rounded-lg border text-sm" :class="darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'">
+                <p>សួស្តီ (Hello), <span class="font-bold text-blue-400" x-text="name ? name : 'මිත්‍රයා'"></span>!</p>
+                <p class="text-xs opacity-75 mt-1">💡 සටහන: පිටුව (Refresh) කළත් නම සහ Dark Mode එක මැකී යන්නේ නැත ($persist නිසා).</p>
             </div>
 
         </div>
