@@ -3,43 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alpine.js Tutorial - Step 5 (Advanced)</title>
+    <title>Alpine.js Tutorial - Step 5 (Perfect Fix)</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Alpine.js CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <script>
-        // Global Store Setup (Alpine.store)
-        document.addEventListener('alpine:init', () => {
-            Alpine.store('darkMode', {
-                on: false,
-                toggle() {
-                    this.on = !this.on;
-                }
-            });
-        });
-    </script>
 </head>
-<body class="transition-colors duration-300" :class="$store.darkMode.on ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'">
+<body class="bg-gray-100 text-gray-800 transition-colors duration-300">
 
-    <div class="flex items-center justify-center h-screen">
-        <div class="p-8 rounded-xl shadow-md w-96 transition-colors duration-300" :class="$store.darkMode.on ? 'bg-gray-800 text-white border border-gray-700' : 'bg-white text-gray-800'">
+    <!-- Main Container with Alpine data for Dark Mode -->
+    <div x-data="{ 
+            darkMode: false,
+            open: false 
+         }" 
+         :class="darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'"
+         class="flex items-center justify-center h-screen transition-colors duration-300">
+
+        <div :class="darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-200 text-gray-800'"
+             class="p-8 rounded-xl shadow-md w-96 border transition-colors duration-300">
             
-            <h1 class="text-2xl font-bold mb-4 text-center">Alpine.js Step 5</h1>
+            <h1 class="text-2xl font-bold mb-6 text-center">Alpine.js Step 5</h1>
 
-            <!-- Global Store Dark Mode Toggle Button -->
+            <!-- Dark Mode Toggle Button -->
             <div class="mb-6 text-center">
-                <button @click="$store.darkMode.toggle()" class="px-4 py-2 rounded-lg font-medium transition shadow"
-                    :class="$store.darkMode.on ? 'bg-yellow-500 hover:bg-yellow-600 text-gray-900' : 'bg-gray-800 hover:bg-gray-900 text-white'">
-                    <span x-text="$store.darkMode.on ? '☀️ Light Mode වෙත මාරු වන්න' : '🌙 Dark Mode වෙත මාරු වන්න'"></span>
+                <button @click="darkMode = !darkMode" 
+                        :class="darkMode ? 'bg-yellow-500 hover:bg-yellow-400 text-gray-900' : 'bg-gray-900 hover:bg-gray-800 text-white'"
+                        class="w-full px-4 py-3 rounded-lg font-semibold transition shadow cursor-pointer">
+                    <!-- Button Text dynamically changes -->
+                    <span x-text="darkMode ? '☀️ Light Mode වෙත මාරු වන්න' : '🌙 Dark Mode වෙත මාරු වන්න'"></span>
                 </button>
             </div>
 
-            <!-- Alpine Component with x-transition -->
-            <div x-data="{ open: false }">
-                <button @click="open = !open" class="bg-indigo-500 hover:bg-indigo-600 text-white w-full py-2 rounded-lg font-medium transition mb-3">
-                    메뉴 (Menu) පෙන්වන්න / සඟවන්න
+            <!-- Menu Component with x-transition -->
+            <div>
+                <button @click="open = !open" 
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white w-full py-2.5 rounded-lg font-medium transition mb-3 cursor-pointer">
+                    මෙනු (Menu) පෙන්වන්න / සඟවන්න
                 </button>
 
                 <!-- Box with x-transition effects -->
@@ -50,9 +49,9 @@
                      x-transition:leave="transition ease-in duration-200"
                      x-transition:leave-start="opacity-100 transform scale-100"
                      x-transition:leave-end="opacity-0 transform scale-90"
-                     class="p-4 rounded-lg border shadow-inner"
-                     :class="$store.darkMode.on ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'">
-                    <p class="font-semibold">මෙය සිනිඳු සජීවීකරණයකින් (Transition) විවෘත වේ!</p>
+                     :class="darkMode ? 'bg-gray-700 border-gray-600 text-gray-100' : 'bg-gray-50 border-gray-200 text-gray-700'"
+                     class="p-4 rounded-lg border shadow-inner">
+                    <p class="font-semibold">මෙය සිනිඳු සජීවීකරණයකින් විවෘත වේ!</p>
                     <ul class="mt-2 space-y-1 text-sm opacity-90">
                         <li>• පැතිකඩ (Profile)</li>
                         <li>• සැකසුම් (Settings)</li>
